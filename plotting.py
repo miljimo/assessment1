@@ -3,6 +3,7 @@ import functions as helper;
 import matplotlib.pyplot as plt
 import numpy as np
 
+BASIC_FREQUENCY  =  (math.pi * 2) / 7;
 
 def real(values:list):
     reals  =  list();
@@ -20,19 +21,31 @@ def imag(values:list):
 
     return reals;
 
+def complex_signal_generator(freq = 1, period= 1,  harmonic = 1):
+    """
+        X(n)  =  cos(kwn) +jsin(kwn);
+        k   =  the harmonic member of the signal.
+        w   =  the  fundamental frequency of the basic periodic signal.
+        n   =  the  linear period per sample 
+    """
+   
+    period_per_cycle       =  1/freq; 
+    period_per_sample      =  period_per_cycle / period
+    x_linear_times_series  =  np.arange(0, period, period_per_sample / harmonic)
 
-def plot(freq = 0.5 , time= 10 , N = 7):
-            
-    freq      = 0.1;
-    xvalues   =  np.arange(-1 * time, time , 0.1)
+    # compute the amplitude for the signal in a complex form X(n)
+    # amplitudes are in complex form.
+    amplitudes = [ complex(math.cos(t  * freq * harmonic) , math.sin(t  * freq * harmonic)) for t in x_linear_times_series];    
+    return (x_linear_times_series, amplitudes) 
     
-    values  =  list();
-    for t in xvalues:
-        c =   helper.complex_exponential(complex(math.cos( (t  * 2 * math.pi) / N ) , math.sin((t  * 2 * math.pi) / N)))
-        values.append(c);
-    fig, ax   = plt.subplots()  # Create a figure containing a single axes.
-    ax.plot(real(values), imag(values))  # Plot some data on the axes.
-    ax.plot(xvalues, imag(values))  # Plot some data on the axes.
+   
+
+def plot_complex(freq = BASIC_FREQUENCY ,  period = 7,  harmonic =  1,):
+
+    results  =  complex_signal_generator(freq,period, harmonic);
+    fig, ax      = plt.subplots()  # Create a figure containing a single axes.
+    ax.plot(results[0], imag(results[1]), marker='o')  # Plot some data on the axes.
+    plt.grid(linestyle='-', linewidth=0.1)
     plt.show();
 
 
