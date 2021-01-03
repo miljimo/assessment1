@@ -27,7 +27,7 @@ def differential(signals:list):
     """
     results  = list();
 
-    for i in range(1, len(signals)):
+    for i in range(0, len(signals)):
         results.append(signals[i] - signals[i-1]);
         
     return results;
@@ -38,7 +38,6 @@ def count_zero_crossing(signals:list):
       Zero crossing is the point at which a function X(t) changes its sign.
       from negative to positive and positive to negative.
       In a basic waveform there are 2 zero crossing per cycle.
-      
     """
     count  =   0;
     
@@ -49,11 +48,12 @@ def count_zero_crossing(signals:list):
         # times the sign changed to negative.
         sign_values  =  get_sign_change(signals);
         diff_values  =  differential(sign_values)
+       
         for v in diff_values:
             if(v != 0):
                 count = count + 1
       
     return count;
 
-
-print(count_zero_crossing(ARRAY_C))
+if __name__ =="__main__":
+    print(count_zero_crossing(ARRAY_C))
