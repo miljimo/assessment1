@@ -30,12 +30,12 @@ def imag(values:list):
         for c in values:
             reals.append(c.imag);
 
-    return reals;   
+    return reals;
 
-def plot_complex_signal(period = 7,
+
+def plot_complex_continous_signal(period = 7,
                         harmonic =  1,
                         samples  = None,
-                        amp = 1,
                         title  = None,
                         xlabel ="n - time",
                         ylabel ="X(n) - amplitude"):
@@ -43,13 +43,43 @@ def plot_complex_signal(period = 7,
         if harmonic < 9 : 
             title  =  FUNCTIONAL_LABELS[harmonic - 1].format(period)
     
-    results      =  helper.complex_signal_generator(period, harmonic, samples, amp );
+    results      =  helper.complex_signal_continous_generator(period, harmonic, samples);
     fig, ax      = plt.subplots()  # Create a figure containing a single axes.
     
     plt.title("${0}$".format(title))
     #plot the imaginary numbers against the time line.
-    ax.plot(results[0], imag(results[1]), marker='o',  label="Imaginary")  # Plot some data on the axes.      
-    ax.plot(results[0], real(results[1]), marker='o',  label="Real")  # Plot some data on the axes.
+    ax.stem(results[0], imag(results[1]), linefmt='-',  label="Imaginary")  # Plot some data on the axes.      
+    
+    plt.grid(linestyle='-', linewidth=0.1)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.legend()
+    plt.show();
+
+
+def plot_discrete_complex_signal(period = 7,
+                        harmonic =  1,
+                        repeats  =  2,
+                        title  = None,
+                        xlabel ="n - time",
+                        ylabel ="X(n) - amplitude"):
+    """
+       period : the sample frame
+       harmonic :the harmonic member of the basic fundamental signal.
+       repeats : the number of times to repeat the sample frame
+       title   : the title of the graph must the formula here.
+    """
+    
+    if(title == None):
+        if harmonic < 9 : 
+            title  =  FUNCTIONAL_LABELS[harmonic - 1].format(period)
+    
+    results      =  helper.complex_signal_generator(harmonic, repeats ,period);
+    fig, ax      =  plt.subplots() 
+    
+    plt.title("${0}$".format(title))
+    
+    ax.stem(results[0], imag(results[1]), linefmt='-',  label="Imaginary")  # Plot some data on the axes.      
     
     plt.grid(linestyle='-', linewidth=0.1)
     plt.xlabel(xlabel)
@@ -59,7 +89,39 @@ def plot_complex_signal(period = 7,
 
 
 
-def plot_signal(step = 0,size  = 6,
+def plot_discrete_complex_cos_signal(period   = 7,
+                            harmonic =  1,
+                            repeats  =  2,
+                            title  = None,
+                            xlabel ="n - time",
+                            ylabel ="X(n) - amplitude"):
+
+    """
+       period : the sample frame
+       harmonic :the harmonic member of the basic fundamental signal.
+       repeats : the number of times to repeat the sample frame
+       title   : the title of the graph must the formula here.
+    """
+    if(title == None):
+        if harmonic < 9 : 
+            title  =  FUNCTIONAL_LABELS[harmonic - 1].format(period)
+    
+    results      =  helper.discrete_complex_signal_generator(period,harmonic, repeats);
+    fig, ax      = plt.subplots()  # Create a figure containing a single axes.
+    
+    plt.title("${0}$".format(title))
+    #plot the imaginary numbers against the time line.
+    ax.stem(results[0], real(results[1]), linefmt='-',  label="Real")  # Plot some data on the axes.
+    
+    plt.grid(linestyle='-', linewidth=0.1)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.legend()
+    plt.show();
+
+    
+
+def plot_unit_signal(step = 0,size  = 6,
                         title  = "X(n)",
                         xlabel = "n - time",
                         ylabel ="X(n) - amplitude"):
@@ -83,7 +145,7 @@ def plot_value_signals(xvalues:list, yvalues:list,
     ax.step(xvalues, yvalues,  label=title)  # Plot some data on the axes.
     plt.grid(linestyle='-', linewidth=0.1)
     plt.xlabel(xlabel)
-    plt.ylabel(ylabel)
+    plt.ylabel( ylabel)
     plt.legend()
     plt.show();
 
