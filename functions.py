@@ -13,13 +13,13 @@ def discrete_complex_signal_generator(period,  harmonic, repeats = 2, amp=1):
     freq                   =  harmonic * ((math.pi * 2) / period);
     period_per_cycle       =  1/ freq;
     length                 = abs(period * repeats);
-    x_linear_times_series  =  np.arange(-1 * length/2 , length/2 + 1, 1)
+    x_linear_times_series  =  np.arange(int(-1 * length/2) , int(length/2) + 1 , 1)
   
     amplitudes = [ amp * complex(math.cos(t  * freq ) , math.sin(t  * freq)) for t in x_linear_times_series];    
     return (x_linear_times_series, amplitudes)
 
 
-def complex_signal_generator(period= 1,  harmonic = 1, samples = None, amp = 0.5):
+def complex_signal_generator(period= 1,  harmonic = 1, samples = None, amp = 1):
     """
         X(n)  =  cos(kwn) +jsin(kwn);
         k   =  the harmonic member of the signal.

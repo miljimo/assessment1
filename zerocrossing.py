@@ -27,7 +27,7 @@ def differential(signals:list):
     """
     results  = list();
 
-    for i in range(0, len(signals)):
+    for i in range(1, len(signals)):
         results.append(signals[i] - signals[i-1]);
         
     return results;
@@ -48,11 +48,10 @@ def count_zero_crossing(signals:list):
         # times the sign changed to negative.
         sign_values  =  get_sign_change(signals);
         diff_values  =  differential(sign_values)
-       
+        print(diff_values)
         for v in diff_values:
             if(v != 0):
                 count = count + 1
-      
     return count;
 
 if __name__ =="__main__":
